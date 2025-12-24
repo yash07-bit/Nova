@@ -29,10 +29,10 @@ const app = express();
 // ======================
 // DATABASE CONNECTION
 // ======================
-const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/ecommerce";
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/nova";
 
 mongoose
-  .connect(dbUrl)
+  .connect(dbUrl, { dbName: "nova" })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
