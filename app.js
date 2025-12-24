@@ -29,7 +29,8 @@ const app = express();
 // ======================
 // DATABASE CONNECTION
 // ======================
-const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/nova";
+// const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/nova";
+const dbUrl = "mongodb://127.0.0.1:27017/nova";
 
 mongoose
   .connect(dbUrl, { dbName: "nova" })
