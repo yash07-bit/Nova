@@ -1,0 +1,110 @@
+<% layout('layouts/boilerplate') %>
+
+<div
+  class="container min-vh-100 d-flex align-items-center justify-content-center py-5"
+>
+  <div class="row w-100 justify-content-center">
+    <div class="col-md-8 col-lg-6 text-center">
+      <div class="error-visual mb-4">
+        <div class="error-circle">
+          <i class="bi bi-exclamation-octagon text-danger"></i>
+        </div>
+      </div>
+
+      <h1 class="display-5 fw-bold text-dark mb-2">Something went wrong</h1>
+      <p class="text-muted mb-4 lead"><%= err.message %></p>
+
+      <div class="mb-5">
+        <span
+          class="badge bg-danger-subtle text-danger rounded-pill px-4 py-2 border border-danger-subtle"
+        >
+          Error Code: <%= err.statusCode || 500 %>
+        </span>
+      </div>
+
+      <div
+        class="d-flex flex-column flex-sm-row gap-3 justify-content-center align-items-center"
+      >
+        <a
+          href="/products"
+          class="btn btn-nova-dark px-5 py-3 text-decoration-none"
+        >
+          <i class="bi bi-house-door me-2"></i> Return Home
+        </a>
+        <button
+          onclick="window.location.reload()"
+          class="btn btn-nova-outline px-5 py-3"
+        >
+          <i class="bi bi-arrow-clockwise me-2"></i> Try Again
+        </button>
+      </div>
+
+      <% if (process.env.NODE_ENV !== 'production' && err.stack) { %>
+      <div class="debug-container mt-5 text-start">
+        <button
+          class="btn btn-link text-muted small text-decoration-none p-0 mb-2 shadow-none"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#stackTrace"
+        >
+          <i class="bi bi-bug me-1"></i> View Technical Details
+        </button>
+        <div class="collapse" id="stackTrace">
+          <div
+            class="card card-body bg-dark text-light border-0 rounded-4 p-4 shadow-sm"
+          >
+            <h6 class="extra-small fw-bold text-uppercase text-secondary mb-3">
+              Stack Trace
+            </h6>
+            <pre
+              class="stack-text m-0"
+              style="white-space: pre-wrap; font-size: 0.75rem"
+            >
+<%= err.stack %></pre
+            >
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<style>
+  .error-circle {
+    width: 100px;
+    height: 100px;
+    background: #fef2f2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 3rem;
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.1);
+  }
+
+  .btn-nova-dark {
+    background: #09090b;
+    color: white;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+
+  .btn-nova-dark:hover {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-nova-outline {
+    border: 1.5px solid #e2e8f0;
+    background: white;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+
+  .extra-small {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+</style>

@@ -1,0 +1,264 @@
+<footer class="mega-footer">
+  <div class="container">
+    <div class="row gy-5">
+      <div class="col-lg-4">
+        <a href="/" class="brand-link mb-3 d-inline-block">
+          <h3 class="brand m-0">NOVA</h3>
+        </a>
+        <p class="footer-bio small">
+          NOVA is a curated shop for premium minimal goods — quality materials,
+          ethical sourcing, and thoughtful design.
+        </p>
+        <div class="d-flex gap-3 mt-4 social-links">
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+          <a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a>
+        </div>
+      </div>
+
+      <div class="col-6 col-lg-2">
+        <h6 class="footer-heading">Shop</h6>
+        <ul class="list-unstyled footer-nav">
+          <li><a href="/products">All Products</a></li>
+          <li><a href="/products?category=electronics">Electronics</a></li>
+          <li><a href="/products?category=fashion">Fashion</a></li>
+          <li><a href="/products?category=home">Home</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-lg-2">
+        <h6 class="footer-heading">Account</h6>
+        <ul class="list-unstyled footer-nav">
+          <% if (locals.currentUser) { %>
+          <li><a href="/orders">My Orders</a></li>
+          <li><a href="/cart">Shopping Bag</a></li>
+          <li><a href="/profile">Settings</a></li>
+          <li><a href="/logout" class="text-danger-emphasis">Sign Out</a></li>
+          <% } else { %>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/signup">Create Account</a></li>
+          <% } %>
+        </ul>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="newsletter-card">
+          <h6 class="footer-heading">Join the Club</h6>
+          <p class="small text-muted mb-3">
+            Get early access to drops and exclusive member benefits.
+          </p>
+          <form class="d-flex gap-2" action="/subscribe" method="POST">
+            <input
+              type="email"
+              class="newsletter-input flex-grow-1"
+              placeholder="Your email"
+              name="email"
+              required
+            />
+            <button class="btn-magnetic-dark" type="submit">Join</button>
+          </form>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 mt-4 trust-badges">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg"
+            alt="Visa"
+          />
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg"
+            alt="Stripe"
+          />
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
+            alt="Apple Pay"
+          />
+          <div class="ms-auto">
+            <span class="sustainability-badge">
+              <i class="bi bi-leaf-fill me-1"></i> Sustainable
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="footer-divider" />
+
+    <div class="footer-bottom">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="copyright m-0">
+            &copy; <%= new Date().getFullYear() %> NOVA Studio. All rights
+            reserved.
+          </p>
+        </div>
+        <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+          <p class="small text-muted m-0">
+            Designed with care <span class="mx-2">•</span> Free shipping over
+            $150
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* ======================
+     MEGA FOOTER STYLING
+  ====================== */
+  .mega-footer {
+    background: #09090b; /* Zinc 950 */
+    color: #a1a1aa; /* Zinc 400 */
+    padding: 80px 0 40px;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .brand-link {
+    text-decoration: none;
+  }
+
+  .mega-footer .brand {
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    font-size: 1.8rem;
+  }
+
+  .footer-bio {
+    max-width: 320px;
+    line-height: 1.6;
+  }
+
+  .footer-heading {
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Nav Links */
+  .footer-nav li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-nav a {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    display: inline-block;
+  }
+
+  .footer-nav a:hover {
+    color: #ffffff;
+    transform: translateX(5px);
+  }
+
+  /* Social Icons */
+  .social-links a {
+    color: #ffffff;
+    font-size: 1.25rem;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  .social-links a:hover {
+    opacity: 1;
+    transform: translateY(-3px);
+    color: #2563eb;
+  }
+
+  /* Newsletter */
+  .newsletter-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .newsletter-input {
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: #ffffff;
+    font-size: 0.9rem;
+  }
+
+  .newsletter-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  .btn-magnetic-dark {
+    background: #ffffff;
+    color: #09090b;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-magnetic-dark:hover {
+    background: #2563eb;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  /* Badges & Trust */
+  .trust-badges img {
+    height: 18px;
+    filter: grayscale(1) brightness(200%);
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .trust-badges img:hover {
+    opacity: 0.8;
+  }
+
+  .sustainability-badge {
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 50px;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    text-transform: uppercase;
+  }
+
+  .footer-divider {
+    margin: 40px 0;
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .copyright {
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 991.98px) {
+    .mega-footer {
+      text-align: center;
+    }
+    .footer-bio {
+      margin: 0 auto;
+    }
+    .social-links {
+      justify-content: center;
+    }
+    .footer-nav a:hover {
+      transform: none;
+    }
+    .trust-badges {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  }
+</style>

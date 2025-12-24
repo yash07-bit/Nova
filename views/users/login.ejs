@@ -1,0 +1,170 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5 pt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+      <div class="auth-card shadow-lg border-0">
+        <div class="auth-header-img position-relative">
+          <img
+            src="https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&w=800&q=80"
+            alt="Login"
+            class="card-img-top auth-img"
+          />
+          <div class="auth-overlay">
+            <h2 class="auth-brand m-0">NOVA</h2>
+            <p class="small opacity-75">Welcome back to the collection</p>
+          </div>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+          <h4 class="fw-bold mb-4 text-center">Sign In</h4>
+
+          <form action="/login" method="POST" class="validated-form" novalidate>
+            <div class="form-floating mb-3">
+              <input
+                class="form-control custom-input"
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Username"
+                autofocus
+                required
+              />
+              <label for="username">Username</label>
+              <div class="invalid-feedback">Please enter your username.</div>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                class="form-control custom-input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Password"
+                required
+              />
+              <label for="password">Password</label>
+              <div class="invalid-feedback">Please enter your password.</div>
+            </div>
+
+            <button class="btn btn-nova-auth w-100 py-3 mb-3">
+              Continue <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </form>
+
+          <div class="auth-footer text-center mt-4">
+            <p class="text-muted small">
+              Don't have an account?
+              <a
+                href="/register"
+                class="text-primary fw-bold text-decoration-none ms-1"
+                >Create one now</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="/products" class="text-muted small text-decoration-none">
+          <i class="bi bi-chevron-left"></i> Return to Shop
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Auth Card Specifics */
+  .auth-card {
+    border-radius: 24px;
+    overflow: hidden;
+    background: #ffffff;
+    transition: var(--transition);
+  }
+
+  .auth-header-img {
+    height: 180px;
+    overflow: hidden;
+  }
+
+  .auth-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7) grayscale(0.2);
+  }
+
+  .auth-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    width: 100%;
+  }
+
+  .auth-brand {
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    font-size: 2.2rem;
+  }
+
+  /* Form Inputs */
+  .custom-input {
+    border: 1.5px solid #f1f5f9;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .custom-input:focus {
+    background-color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+
+  /* Button Styling */
+  .btn-nova-auth {
+    background: #09090b;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .btn-nova-auth:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+  }
+
+  /* Mobile Tweaks */
+  @media (max-width: 576px) {
+    .auth-card {
+      margin: 0 10px;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    "use strict";
+    const forms = document.querySelectorAll(".validated-form");
+    Array.from(forms).forEach(function (form) {
+      form.addEventListener(
+        "submit",
+        function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add("was-validated");
+        },
+        false
+      );
+    });
+  })();
+</script>

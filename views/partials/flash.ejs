@@ -1,0 +1,128 @@
+<div class="container mt-4 flash-container">
+  <% if (success && success.length) { %>
+  <div
+    class="alert alert-custom alert-success-premium alert-dismissible fade show shadow-lg"
+    role="alert"
+  >
+    <div class="d-flex align-items-center">
+      <div class="icon-box me-3">
+        <i class="bi bi-check2-circle fs-4"></i>
+      </div>
+      <div class="flex-grow-1">
+        <small class="text-uppercase fw-bold d-block mb-n1 opacity-75"
+          >Success</small
+        >
+        <div class="fw-medium"><%= success %></div>
+      </div>
+      <button
+        type="button"
+        class="btn-close-custom"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+  <% } %> <% if (error && error.length) { %>
+  <div
+    class="alert alert-custom alert-danger-premium alert-dismissible fade show shadow-lg"
+    role="alert"
+  >
+    <div class="d-flex align-items-center">
+      <div class="icon-box me-3">
+        <i class="bi bi-exclamation-circle fs-4"></i>
+      </div>
+      <div class="flex-grow-1">
+        <small class="text-uppercase fw-bold d-block mb-n1 opacity-75"
+          >Attention</small
+        >
+        <div class="fw-medium"><%= error %></div>
+      </div>
+      <button
+        type="button"
+        class="btn-close-custom"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+  <% } %>
+</div>
+
+<style>
+  /* Container to prevent layout shift */
+  .flash-container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1060;
+  }
+
+  /* Base Alert Styling */
+  .alert-custom {
+    border: none;
+    border-radius: 16px;
+    padding: 1.2rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: slideInUp 0.5s ease forwards;
+  }
+
+  /* Success Variant */
+  .alert-success-premium {
+    background: rgba(236, 253, 245, 0.9); /* Emerald 50 */
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: #065f46;
+  }
+  .alert-success-premium .icon-box {
+    color: #10b981;
+  }
+
+  /* Error Variant */
+  .alert-danger-premium {
+    background: rgba(254, 242, 242, 0.9); /* Red 50 */
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #991b1b;
+  }
+  .alert-danger-premium .icon-box {
+    color: #ef4444;
+  }
+
+  /* Custom Close Button */
+  .btn-close-custom {
+    background: transparent;
+    border: none;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .btn-close-custom:hover {
+    opacity: 1;
+  }
+
+  /* Animation */
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Mobile Tweak */
+  @media (max-width: 576px) {
+    .flash-container {
+      padding: 0 20px;
+    }
+  }
+</style>

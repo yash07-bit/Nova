@@ -1,0 +1,363 @@
+<% layout('layouts/boilerplate') %>
+
+<nav aria-label="breadcrumb" class="mb-4">
+  <ol class="breadcrumb small">
+    <li class="breadcrumb-item">
+      <a href="/products" class="text-muted text-decoration-none">Shop</a>
+    </li>
+    <li class="breadcrumb-item active text-capitalize" aria-current="page">
+      <%= product.category %>
+    </li>
+  </ol>
+</nav>
+
+<div class="row g-5">
+  <div class="col-md-7">
+    <div
+      id="productCarousel"
+      class="carousel slide product-gallery shadow-lg rounded-4 overflow-hidden"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner bg-white">
+        <% if (product.images.length > 0) { %> <% product.images.forEach((img,
+        i) => { %>
+        <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+          <img
+            src="<%= img.url %>"
+            class="d-block w-100 product-hero-img"
+            alt="<%= product.title %>"
+          />
+        </div>
+        <% }) %> <% } else { %>
+        <div class="carousel-item active">
+          <img
+            src="https://via.placeholder.com/800x800"
+            class="d-block w-100 product-hero-img"
+            alt="No image"
+          />
+        </div>
+        <% } %>
+      </div>
+
+      <% if (product.images.length > 1) { %>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#productCarousel"
+        data-bs-slide="prev"
+      >
+        <span
+          class="carousel-control-prev-icon custom-icon"
+          aria-hidden="true"
+        ></span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#productCarousel"
+        data-bs-slide="next"
+      >
+        <span
+          class="carousel-control-next-icon custom-icon"
+          aria-hidden="true"
+        ></span>
+      </button>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="product-details-sidebar">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <span class="badge bg-primary-subtle text-primary text-uppercase px-3"
+          ><%= product.category %></span
+        >
+        <div class="text-muted small">
+          <i class="bi bi-person-circle me-1"></i> <%= product.seller.username
+          %>
+        </div>
+      </div>
+
+      <h1 class="display-5 fw-bold text-dark mb-3"><%= product.title %></h1>
+      <h2 class="display-6 fw-light text-primary mb-4">
+        $<%= product.price.toFixed(2) %>
+      </h2>
+
+      <p class="lead text-muted mb-5"><%= product.description %></p>
+
+      <div class="d-grid gap-3">
+        <% if (currentUser) { %>
+        <form
+          action="/cart/add/<%= product._id %>"
+          method="POST"
+          class="d-grid"
+        >
+          <button class="btn btn-nova-buy btn-lg">
+            Add to Bag <i class="bi bi-bag-plus ms-2"></i>
+          </button>
+        </form>
+        <% } else { %>
+        <a href="/login" class="btn btn-nova-outline btn-lg"
+          >Login to Purchase</a
+        >
+        <% } %> <% if (currentUser &&
+        product.seller._id.equals(currentUser._id)) { %>
+        <div class="admin-actions-box p-3 rounded-4 mt-2">
+          <p class="small fw-bold text-uppercase text-muted mb-2">
+            Seller Controls
+          </p>
+          <div class="d-flex gap-2">
+            <a
+              href="/products/<%= product._id %>/edit"
+              class="btn btn-info-soft flex-grow-1"
+              >Edit Details</a
+            >
+            <form
+              action="/products/<%= product._id %>?_method=DELETE"
+              method="POST"
+              class="flex-grow-1"
+            >
+              <button class="btn btn-danger-soft w-100">Delete Listing</button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+      </div>
+
+      <div class="row mt-5 g-2 text-center border-top pt-4">
+        <div class="col-4">
+          <i class="bi bi-shield-check fs-3 text-muted"></i>
+          <p class="extra-small text-muted mt-1">2 Year Warranty</p>
+        </div>
+        <div class="col-4">
+          <i class="bi bi-truck fs-3 text-muted"></i>
+          <p class="extra-small text-muted mt-1">Free Shipping</p>
+        </div>
+        <div class="col-4">
+          <i class="bi bi-arrow-repeat fs-3 text-muted"></i>
+          <p class="extra-small text-muted mt-1">30-Day Returns</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5 pt-5 border-top">
+  <div class="col-md-7">
+    <div class="d-flex align-items-center mb-4">
+      <h3 class="fw-bold m-0 me-3">Community Reviews</h3>
+      <span class="badge rounded-pill bg-dark"
+        ><%= product.reviews.length %></span
+      >
+    </div>
+
+    <% if (product.reviews.length === 0) { %>
+    <div class="text-center py-5 bg-light rounded-4">
+      <i class="bi bi-chat-left-dots fs-1 text-muted opacity-25"></i>
+      <p class="text-muted mt-3">Be the first to share your experience.</p>
+    </div>
+    <% } %> <% product.reviews.forEach(review => { %>
+    <div class="review-card mb-4">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <h6 class="fw-bold mb-1"><%= review.author.username %></h6>
+          <div class="star-rating-display mb-2">
+            <% for(let i=0; i<5; i++) { %>
+            <i
+              class="bi bi-star-fill <%= i < review.rating ? 'text-warning' : 'text-light' %>"
+            ></i>
+            <% } %>
+          </div>
+          <p class="text-secondary"><%= review.comment %></p>
+        </div>
+        <% if (currentUser && review.author._id.equals(currentUser._id)) { %>
+        <form
+          action="/products/<%= product._id %>/reviews/<%= review._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn-delete-review"><i class="bi bi-trash"></i></button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+
+  <div class="col-md-5">
+    <% if (currentUser) { %>
+    <div class="review-form-card shadow-sm p-4">
+      <h4 class="fw-bold mb-3">Rate this Product</h4>
+      <form
+        action="/products/<%= product._id %>/reviews"
+        method="POST"
+        class="validated-form"
+        novalidate
+      >
+        <div class="mb-4">
+          <label class="form-label small fw-bold text-uppercase"
+            >Your Rating</label
+          >
+          <div class="rating-input-wrapper">
+            <input
+              type="range"
+              class="form-range custom-range"
+              min="1"
+              max="5"
+              name="review[rating]"
+              id="rating"
+            />
+            <div
+              class="d-flex justify-content-between text-muted extra-small px-1"
+            >
+              <span>Poor</span>
+              <span>Excellent</span>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="comment" class="form-label small fw-bold text-uppercase"
+            >Your Feedback</label
+          >
+          <textarea
+            class="form-control"
+            id="comment"
+            name="review[comment]"
+            rows="4"
+            placeholder="What did you think about the quality and design?"
+            required
+          ></textarea>
+        </div>
+        <button class="btn btn-nova-dark btn-lg w-100">Submit Review</button>
+      </form>
+    </div>
+    <% } else { %>
+    <div class="alert alert-light border text-center p-4 rounded-4">
+      <p class="mb-0">
+        Please <a href="/login" class="fw-bold">Login</a> to leave a review.
+      </p>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<style>
+  /* Gallery Styling */
+  .product-hero-img {
+    height: 600px;
+    object-fit: contain;
+    padding: 40px;
+    background: #ffffff;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 5%;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .product-gallery:hover .carousel-control-prev,
+  .product-gallery:hover .carousel-control-next {
+    opacity: 1;
+  }
+
+  .custom-icon {
+    filter: invert(1);
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 20px;
+  }
+
+  /* Product Side Details */
+  .product-details-sidebar {
+    position: sticky;
+    top: 100px;
+  }
+
+  .btn-nova-buy {
+    background: #09090b;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 18px;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .btn-nova-buy:hover {
+    background: #2563eb;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+  }
+
+  /* Admin Box */
+  .admin-actions-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+  }
+  .btn-info-soft {
+    background: #e0f2fe;
+    color: #0369a1;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .btn-danger-soft {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  /* Reviews UI */
+  .review-card {
+    padding: 24px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    transition: all 0.3s ease;
+  }
+
+  .review-card:hover {
+    border-color: #2563eb;
+    transform: translateX(5px);
+  }
+
+  .star-rating-display .bi-star-fill {
+    font-size: 0.8rem;
+    margin-right: 2px;
+  }
+  .btn-delete-review {
+    border: none;
+    background: none;
+    color: #cbd5e1;
+    transition: color 0.2s;
+  }
+  .btn-delete-review:hover {
+    color: #ef4444;
+  }
+
+  .review-form-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    position: sticky;
+    top: 100px;
+  }
+
+  .custom-range::-webkit-slider-runnable-track {
+    background: #f1f5f9;
+    height: 8px;
+    border-radius: 10px;
+  }
+  .custom-range::-webkit-slider-thumb {
+    margin-top: -4px;
+    background: #2563eb;
+  }
+
+  .extra-small {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+</style>

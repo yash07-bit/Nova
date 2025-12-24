@@ -1,0 +1,255 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mb-5 mt-4">
+  <div class="d-flex align-items-center justify-content-between mb-5">
+    <div class="d-flex align-items-center">
+      <div class="brand-icon-box me-3">
+        <i class="bi bi-clock-history fs-3 text-primary"></i>
+      </div>
+      <div>
+        <h1 class="display-6 fw-bold m-0">Order History</h1>
+        <p class="text-muted m-0 small">Track and manage your past purchases</p>
+      </div>
+    </div>
+    <a href="/products" class="btn btn-nova-outline d-none d-md-inline-block">
+      Continue Shopping
+    </a>
+  </div>
+
+  <% if (orders.length === 0) { %>
+  <div class="empty-orders-state text-center py-5">
+    <div class="empty-icon-circle mb-4">
+      <i class="bi bi-box2 text-muted"></i>
+    </div>
+    <h3 class="fw-bold">No orders found</h3>
+    <p class="text-muted mb-4">
+      It looks like you haven't placed any orders yet. Let's change that!
+    </p>
+    <a href="/products" class="btn btn-nova-primary px-5 py-3"
+      >Explore Collections</a
+    >
+  </div>
+  <% } else { %> <% orders.forEach(order => { %>
+  <div class="order-dashboard-card mb-5">
+    <div class="order-header-main p-4">
+      <div class="row align-items-center g-3">
+        <div class="col-md-3">
+          <label class="d-block text-muted small text-uppercase fw-bold mb-1"
+            >Order Reference</label
+          >
+          <span class="fw-mono text-dark"
+            >#<%= order._id.toString().slice(-8).toUpperCase() %></span
+          >
+        </div>
+        <div class="col-md-3">
+          <label class="d-block text-muted small text-uppercase fw-bold mb-1"
+            >Date Placed</label
+          >
+          <span class="text-dark"
+            ><%= order.createdAt.toLocaleDateString('en-US', { month: 'short',
+            day: 'numeric', year: 'numeric' }) %></span
+          >
+        </div>
+        <div class="col-md-3">
+          <label class="d-block text-muted small text-uppercase fw-bold mb-1"
+            >Status</label
+          >
+          <% if(order.status === 'Delivered') { %>
+          <span class="badge-nova badge-success-nova"
+            ><i class="bi bi-check-circle-fill me-1"></i> Delivered</span
+          >
+          <% } else if(order.status === 'Shipped') { %>
+          <span class="badge-nova badge-info-nova"
+            ><i class="bi bi-truck me-1"></i> Shipped</span
+          >
+          <% } else { %>
+          <span class="badge-nova badge-warning-nova"
+            ><i class="bi bi-gear-wide-connected me-1"></i> Processing</span
+          >
+          <% } %>
+        </div>
+        <div class="col-md-3 text-md-end">
+          <label class="d-block text-muted small text-uppercase fw-bold mb-1"
+            >Order Total</label
+          >
+          <span class="h5 fw-bold text-primary m-0"
+            >$<%= order.totalAmount.toFixed(2) %></span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="order-body-content p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="bg-faint">
+            <tr class="small text-muted text-uppercase">
+              <th class="ps-4 py-3">Items Purchased</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Qty</th>
+              <th class="text-end pe-4">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% order.items.forEach(item => { %>
+            <tr>
+              <td class="ps-4">
+                <div class="d-flex align-items-center py-2">
+                  <div class="product-mini-thumb me-3">
+                    <i class="bi bi-box-seam text-primary"></i>
+                  </div>
+                  <div>
+                    <p class="mb-0 fw-bold text-dark"><%= item.title %></p>
+                    <span class="text-muted extra-small"
+                      >SKU: <%= item.productId.toString().slice(-6) %></span
+                    >
+                  </div>
+                </div>
+              </td>
+              <td class="text-center fw-medium">
+                $<%= item.price.toFixed(2) %>
+              </td>
+              <td class="text-center">
+                <span class="qty-pill"><%= item.quantity %></span>
+              </td>
+              <td class="text-end pe-4 fw-bold text-dark">
+                $<%= (item.price * item.quantity).toFixed(2) %>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div
+      class="order-footer-actions p-3 px-4 d-flex justify-content-between align-items-center"
+    >
+      <span class="small text-muted italic"
+        >Order placed via NOVA Secure Checkout</span
+      >
+      <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-ghost">
+          <i class="bi bi-file-earmark-pdf me-1"></i> Invoice
+        </button>
+        <button class="btn btn-sm btn-nova-primary">View Details</button>
+      </div>
+    </div>
+  </div>
+  <% }) %> <% } %>
+</div>
+
+<style>
+  /* Container UI */
+  .brand-icon-box {
+    width: 54px;
+    height: 54px;
+    background: rgba(37, 99, 235, 0.08);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fw-mono {
+    font-family: "Courier New", Courier, monospace;
+    letter-spacing: 1px;
+  }
+
+  /* Dashboard Card Layout */
+  .order-dashboard-card {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .order-dashboard-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+    border-color: rgba(37, 99, 235, 0.2);
+  }
+
+  .order-header-main {
+    background: #fcfcfd;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  }
+
+  .bg-faint {
+    background-color: #fafbfc;
+  }
+
+  /* Badges */
+  .badge-nova {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .badge-success-nova {
+    background: #ecfdf5;
+    color: #059669;
+  }
+  .badge-info-nova {
+    background: #eff6ff;
+    color: #2563eb;
+  }
+  .badge-warning-nova {
+    background: #fffbeb;
+    color: #d97706;
+  }
+
+  /* Table UI */
+  .product-mini-thumb {
+    width: 40px;
+    height: 40px;
+    background: #f1f5f9;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qty-pill {
+    background: #f1f5f9;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .extra-small {
+    font-size: 0.7rem;
+  }
+
+  .order-footer-actions {
+    background: #ffffff;
+    border-top: 1px solid rgba(0, 0, 0, 0.03);
+  }
+
+  /* Empty State */
+  .empty-icon-circle {
+    width: 100px;
+    height: 100px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .order-header-main {
+      text-align: center;
+    }
+    .text-md-end {
+      text-align: center !important;
+    }
+  }
+</style>
